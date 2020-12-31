@@ -75,9 +75,8 @@ public class MainController
 
     /**
      * Event listener for the 'Add' button in the Parts table.
-     *
-     * Calls the setMode('a') method in the PartFormController,
-     * pre-renders the form, and opens it in a new window.
+     * <p>
+     * Calls the setMode('a') method in the PartFormController, pre-renders the form, and opens it in a new window.
      *
      * @throws IOException getResource takes a filename String argument
      */
@@ -97,9 +96,8 @@ public class MainController
 
     /**
      * Event listener for the 'Modify' button in the Parts table.
-     *
-     * Calls the setMode('m') method in the
-     * PartFormController, pre-renders the form, and opens it in a new window.
+     * <p>
+     * Calls the setMode('m') method in the PartFormController, pre-renders the form, and opens it in a new window.
      *
      * @throws IOException getResource takes a filename String argument
      */
@@ -192,7 +190,11 @@ public class MainController
                 }
             }
             partTableView.setItems(results);
-            if (results.size() == 1) {
+            if (results.size() == 0) {
+                new SimpleDialog("No Result", "Not Found", "No such part.").displayDialog();
+                partSearchBar.setText("");
+                partTableView.setItems(Inventory.getAllParts());
+            } else if (results.size() == 1) {
                 partTableView.getSelectionModel().clearAndSelect(0);
                 partTableView.getFocusModel().focus(0);
                 partSelectListener();
@@ -306,10 +308,9 @@ public class MainController
 
     /**
      * Listens for the enter key in the products searchbar.
-     *
-     * queryString could potentially be a String of number
-     * characters. products are searched by String first. if the string can be parsed into an int, search for productId
-     * as well, and append to the initial results
+     * <p>
+     * queryString could potentially be a String of number characters. products are searched by String first. if the
+     * string can be parsed into an int, search for productId as well, and append to the initial results
      */
     public void productSearchBarListener() throws IOException
     {
@@ -327,7 +328,11 @@ public class MainController
                 }
             }
             productTableView.setItems(results);
-            if (results.size() == 1) {
+            if (results.size() == 0) {
+                new SimpleDialog("No Result", "Not Found", "No such product.").displayDialog();
+                productSearchBar.setText("");
+                productTableView.setItems(Inventory.getAllProducts());
+            } else if (results.size() == 1) {
                 productTableView.getSelectionModel().clearAndSelect(0);
                 productTableView.getFocusModel().focus(0);
                 productSelectListener();

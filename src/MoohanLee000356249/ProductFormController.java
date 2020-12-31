@@ -189,7 +189,6 @@ public class ProductFormController
      */
     public void partSearchBarListener()
     {
-        int resultCount = 0;
         ObservableList<Part> results;
         String queryString = partSearchBar.getText();
         if (queryString.equals("")) {
@@ -204,8 +203,11 @@ public class ProductFormController
                 }
             }
             partTableView.setItems(results);
-            resultCount = results.size();
-            if (resultCount == 1) {
+            if (results.size() == 0) {
+                new SimpleDialog("No Result", "Not Found", "No such part.").displayDialog();
+                partSearchBar.setText("");
+                partTableView.setItems(Inventory.getAllParts());
+            } else if (results.size() == 1) {
                 partTableView.getSelectionModel().clearAndSelect(0);
                 partTableView.getFocusModel().focus(0);
                 partSelectListener();
